@@ -24,6 +24,11 @@ app.get('/', (req, res) => {
     res.send("NodeJS 학습중<br><br>1234test")
 })
 
+app.get('/api/hello', (req, res) => {
+    res.send("ㅎㅇ")
+})
+
+
 app.post('/api/users/register', (req, res) => {
     // 회원가입 필수정보를 client에서 받고 이들을 DB로 넣어줌
     const user = new User(req.body)
