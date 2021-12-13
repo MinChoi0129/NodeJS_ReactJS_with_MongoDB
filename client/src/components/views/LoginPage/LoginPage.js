@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import {useDisPatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {loginUser} from '../../../_actions/user_action'
 
 function LoginPage() {
-    const dispatch = useDisPatch()
+    const dispatch = useDispatch()
     const [Email, setEmail] = useState("")
     const [Password, setPassword] = useState("")
 
