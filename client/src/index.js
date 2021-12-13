@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import 'antd/dist/antd.css';
-// import { applyMiddleware } from 'redux';
-// import promiseMiddleware from 'react-promise';
-// import ReduxThunk from 'react-thunk'
-// import Reducer from './_reducers'
+import { applyMiddleware, createStore } from 'redux';
+import promiseMiddleware from 'react-promise';
+import ReduxThunk from 'react-thunk'
+import Reducer from './_reducers/index'
 
-// const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 ReactDOM.render(
 	<Provider
-		// store={createStoreWithMiddleware(
-		// 	Reducer,
-		// 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-		// }
+		store={createStoreWithMiddleware(
+			Reducer,
+			window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+		}
 	>
 
 
