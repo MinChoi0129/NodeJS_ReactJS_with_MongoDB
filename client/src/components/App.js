@@ -5,10 +5,10 @@ import {
   Route
 } from "react-router-dom";
 
-import LandingPage from './components/views/LandingPage/LandingPage'
-import LoginPage from './components/views/LoginPage/LoginPage';
-import RegisterPage from './components/views/RegisterPage/RegisterPage';
-import Auth from './hoc/auth'
+import LandingPage from './views/LandingPage/LandingPage'
+import LoginPage from './views/LoginPage/LoginPage';
+import RegisterPage from './views/RegisterPage/RegisterPage';
+import Auth from '../hoc/auth'
 
 function App() {
   return (
