@@ -29,7 +29,7 @@ function LoginPage(props) {
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .email('올바른 형식이 아닙니다.')
+          .email('올바른 이메일 형식이 아닙니다.')
           .required('이메일은 필수입니다.'),
         password: Yup.string()
           .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.')
@@ -47,17 +47,17 @@ function LoginPage(props) {
               if (response.payload.loginSuccess) {
                 window.localStorage.setItem('userId', response.payload.userId);
                 if (rememberMe === true) {
-                  window.localStorage.setItem('rememberMe', values.id);
+                  window.localStorage.setItem('rememberMe', dataToSubmit.email);
                 } else {
                   localStorage.removeItem('rememberMe');
                 }
                 props.history.push("/");
               } else {
-                setFormErrorMessage('Check out your Account or Password again')
+                setFormErrorMessage('이메일 또는 비밀번호가 틀렸습니다.')
               }
             })
             .catch(err => {
-              setFormErrorMessage('Check out your Account or Password again')
+              setFormErrorMessage('이메일 또는 비밀번호가 틀렸습니다.')
               setTimeout(() => {
                 setFormErrorMessage("")
               }, 3000);
@@ -131,7 +131,7 @@ function LoginPage(props) {
                   </a>
                 <div>
                   <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
-                    Log in
+                    로그인
                 </Button>
                 </div>
                 처음이신가요? <a href="/register">회원가입</a>
