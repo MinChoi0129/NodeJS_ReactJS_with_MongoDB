@@ -76,7 +76,11 @@ function RegisterPage(props) {
             if (response.payload.success) {
               props.history.push("/login");
             } else {
-              alert(response.payload.err.errmsg)
+              if (response.payload.err.errmsg.slice(0, 6) === 'E11000') {
+                alert(`'${dataToSubmit.email}' 은(는) 이미 사용중인 이메일입니다!`)
+              } else {
+                alert(response.payload.err.errmsg)
+              }
             }
           })
 
