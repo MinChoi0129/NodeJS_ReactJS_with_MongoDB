@@ -8,7 +8,7 @@ function Footer() {
             flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', fontSize:'1rem'
         }}>
-           <p> 환영합니다!  <Icon type="smile" /></p>
+           <p> 민재무비에 오신 것을 환영합니다!  <Icon type="smile" /></p>
         </div>
     )
 }
