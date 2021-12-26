@@ -14,6 +14,7 @@ function LandingPage() {
     useEffect(() => {
         const endpoint = `${API_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=1`
         fetchMovies(endpoint)
+    // eslint-disable-next-line
     }, [])
 
     const fetchMovies = (endpoint) => {

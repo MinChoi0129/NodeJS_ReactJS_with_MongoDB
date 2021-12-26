@@ -28,6 +28,7 @@ function MovieDetail(props) {
             .then(response => {
                 setCasts(response.cast)
             })
+    // eslint-disable-next-line
     }, [])
     
     const toggleActorView = () => {
