@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { API_URL, API_KEY, IMAGE_BASE_URL } from '../../Config'
 import MainImage from '../LandingPage/Sections/MainImage'
 import MovieInfo from './Sections/MovieInfo'
+import { Row } from 'antd'
+import GridCards from '../commons/GridCards';
+import base_no_image from '../../../image/NoImage.png'
 
 function MovieDetail(props) {   
 
     let movieID = props.match.params.movieID
     const [Movie, setMovie] = useState([])
+    const [Casts, setCasts] = useState([])
+    const [ActorToggle, setActorToggle] = useState(false)
+
     useEffect(() => {   
         let endpointCrew = `${API_URL}/movie/${movieID}/credits?api_key=${API_KEY}&language=ko-KR`
         let endpointInfo = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=ko-KR`
@@ -16,16 +22,29 @@ function MovieDetail(props) {
             .then(response => {
                 setMovie(response)
             })
-    }, [])
 
+        fetch(endpointCrew)
+            .then(response => response.json())
+            .then(response => {
+                setCasts(response.cast)
+            })
+    }, [])
+    
+    const toggleActorView = () => {
+        setActorToggle(!ActorToggle)
+    }
 
     return (
         <div>
-            <MainImage
-                image={`${IMAGE_BASE_URL}/w1280${Movie.backdrop_path}`}
-                title={`${Movie.title} (${Movie.original_title})`}
-                text={Movie.overview}
-            />
+            {Movie &&
+                <MainImage
+                    image={`${IMAGE_BASE_URL}/w1280${Movie.backdrop_path}`}
+                    title={`${Movie.title} (${Movie.original_title})`}
+                    text={Movie.overview}
+                />
+            }
+            
+            
 
 
             <div style={{ width: '85%', margin: '1rem auto' }}>
@@ -36,8 +55,24 @@ function MovieDetail(props) {
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem' }}>
                     {/* <button onClick={()=>{console.log(Movie)}}> Toggle Actore View</button> */}
-                    <button> Toggle Actore View</button>
+                    <button onClick = {toggleActorView}>배우 및 출연진</button>
                 </div>
+
+                {ActorToggle && 
+                    <Row gutter = {[16, 16]}>
+                    {Casts && Casts.map((cast, index) => (
+                        <React.Fragment key = {index}>
+                            <GridCards 
+                                image = {cast.profile_path ?
+                                    `${IMAGE_BASE_URL}/w500${cast.profile_path}` : base_no_image
+                                }
+                                characterName = {cast.name}
+                            />     
+                        </React.Fragment>
+                ))}
+                </Row>
+                }
+
             </div>
         </div>
     )
