@@ -36,7 +36,7 @@ function MovieDetail(props) {
 
     return (
         <div>
-            {Movie &&
+            {Movie.backdrop_path &&
                 <MainImage
                     image={`${IMAGE_BASE_URL}/w1280${Movie.backdrop_path}`}
                     title={`${Movie.title} (${Movie.original_title})`}
