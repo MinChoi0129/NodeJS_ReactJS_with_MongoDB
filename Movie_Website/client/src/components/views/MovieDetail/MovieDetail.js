@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL, API_KEY, IMAGE_BASE_URL } from '../../Config'
 import MainImage from '../LandingPage/Sections/MainImage'
+import Favorite from './Sections/Favorite'
 import MovieInfo from './Sections/MovieInfo'
 import { Row } from 'antd'
 import GridCards from '../commons/GridCards';
 import base_no_image from '../../../image/NoImage.png'
 
+
+
 function MovieDetail(props) {   
 
-    let movieID = props.match.params.movieID
+    let movieId = props.match.params.movieID
     const [Movie, setMovie] = useState([])
     const [Casts, setCasts] = useState([])
     const [ActorToggle, setActorToggle] = useState(false)
 
     useEffect(() => {   
-        let endpointCrew = `${API_URL}/movie/${movieID}/credits?api_key=${API_KEY}&language=ko-KR`
-        let endpointInfo = `${API_URL}/movie/${movieID}?api_key=${API_KEY}&language=ko-KR`
+        let endpointCrew = `${API_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=ko-KR`
+        let endpointInfo = `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`
 
         fetch(endpointInfo)
             .then(response => response.json())
@@ -44,11 +47,14 @@ function MovieDetail(props) {
                     text={Movie.overview}
                 />
             }
-            
-            
-
 
             <div style={{ width: '85%', margin: '1rem auto' }}>
+
+                <div style = {{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Favorite movieInfo = {Movie} userFrom = {window.localStorage.getItem('userId')} movieId = {movieId} />
+                </div>
+
+
                 <MovieInfo
                     movie={Movie}
                 />
