@@ -10,15 +10,19 @@ function Favorite(props) {
     const moviePost = props.movieInfo.backdrop_path
     const movieRunTime = props.movieInfo.runtime
 
-    const [FavoriteNumber, setFavoriteNumber] = useState(0)
+    const [FavoriteNumber, setFavoriteNumber] = useState(0);
     const [Favorited, setFavorited] = useState(false)
 
+    let variables = {
+        userFrom,
+        movieId,
+        movieTitle,
+        moviePost,
+        movieRunTime
+    }
 
     useEffect(() => {
-        let variables = {
-            userFrom,
-            movieId
-        }
+        
         axios.post('/api/favorite/favoriteNumber', variables)
         .then(response => {
             setFavoriteNumber(response.data.FavoriteNumber)
@@ -38,20 +42,42 @@ function Favorite(props) {
                 alert('정보를 가져오는데 실패했습니다.')
             }
         })
-        console.log(Favorited, FavoriteNumber)
     // eslint-disable-next-line
     }, [])
 
+
+    const onClickFavorite = () => {
+        if (Favorited) {
+            axios.post('/api/favorite/removeFromFavorite', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setFavoriteNumber(FavoriteNumber - 1)
+                    setFavorited(!Favorited)
+                } else {
+                    alert('좋아요 취소를 실패했습니다.')
+                }
+            })
+        } else {
+            axios.post('/api/favorite/addToFavorite', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setFavoriteNumber(FavoriteNumber + 1)
+                    setFavorited(!Favorited)
+                } else {
+                    alert('좋아요를 하는데 실패했습니다.')
+                }
+            })
+        }
+    }
     return (
         <div>
-            <Button>
-                {Favorited ? 
+            <Button onClick = {onClickFavorite}>
+            {Favorited ? 
                     <span role = "img" aria-label = "thumbs-up">👍</span>
                     : 
                     <span role = "img" aria-label = "finger-neutral">🤜</span>
-                }  
-                &nbsp;{FavoriteNumber}
-            </Button>
+                }
+                &nbsp;{FavoriteNumber || 0}</Button>
         </div>
     )
 }
