@@ -14,11 +14,11 @@ function Favorite(props) {
     const [Favorited, setFavorited] = useState(false)
 
     let variables = {
-        userFrom,
-        movieId,
-        movieTitle,
-        moviePost,
-        movieRunTime
+        userFrom: userFrom,
+        movieId: movieId,
+        movieTitle: movieTitle,
+        moviePost: moviePost,
+        movieRunTime: movieRunTime
     }
 
     useEffect(() => {
