@@ -65,7 +65,7 @@ function Favorite(props) {
                     alert('좋아요를 실패했습니다.')
                 }
             })
-        }
+        }   
     }
     return (
         <div>
