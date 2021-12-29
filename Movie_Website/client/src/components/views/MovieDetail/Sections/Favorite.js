@@ -25,7 +25,6 @@ function Favorite(props) {
         
         axios.post('/api/favorite/favoriteNumber', variables)
         .then(response => {
-            console.log("FavNum 가져오기", response)
             setFavoriteNumber(response.data.favoriteNumber)
             if (response.data.success) {
             } else {
@@ -35,7 +34,6 @@ function Favorite(props) {
 
         axios.post('/api/favorite/favorited', variables)
         .then(response => {
-            console.log("Fav유무 가져오기", response)
             setFavorited(response.data.favorited)
             if (response.data.success) {
             } else {
@@ -49,8 +47,7 @@ function Favorite(props) {
     const onClickFavorite = () => {
         if (Favorited) {
             axios.post('/api/favorite/removeFromFavorite', variables)
-            .then(response => {
-                console.log("좋아요 제거", response)
+            .then(response => { 
                 if (response.data.success) {                    
                     setFavoriteNumber(FavoriteNumber - 1)
                     setFavorited(!Favorited)
@@ -61,7 +58,6 @@ function Favorite(props) {
         } else {
             axios.post('/api/favorite/addToFavorite', variables)
             .then(response => {
-                console.log("좋아요 추가", response)
                 if (response.data.success) {
                     setFavoriteNumber(FavoriteNumber + 1)
                     setFavorited(!Favorited)
@@ -69,7 +65,7 @@ function Favorite(props) {
                     alert('좋아요를 실패했습니다.')
                 }
             })
-        }
+        }   
     }
     return (
         <div>
