@@ -9,14 +9,14 @@ import base_no_image from '../../../image/NoImage.png'
 
 
 
-function MovieDetail(props) {   
+function MovieDetail(props) {
 
     let movieId = props.match.params.movieID
     const [Movie, setMovie] = useState([])
     const [Casts, setCasts] = useState([])
     const [ActorToggle, setActorToggle] = useState(false)
 
-    useEffect(() => {   
+    useEffect(() => {
         let endpointCrew = `${API_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=ko-KR`
         let endpointInfo = `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`
 
@@ -31,9 +31,9 @@ function MovieDetail(props) {
             .then(response => {
                 setCasts(response.cast)
             })
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [])
-    
+
     const toggleActorView = () => {
         setActorToggle(!ActorToggle)
     }
@@ -50,8 +50,8 @@ function MovieDetail(props) {
 
             <div style={{ width: '85%', margin: '1rem auto' }}>
 
-                <div style = {{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Favorite movieInfo = {Movie} userFrom = {window.localStorage.getItem('userId')} movieId = {movieId} />
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Favorite movieInfo={Movie} userFrom={window.localStorage.getItem('userId')} movieId={movieId} />
                 </div>
 
 
@@ -62,22 +62,22 @@ function MovieDetail(props) {
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem' }}>
                     {/* <button onClick={()=>{console.log(Movie)}}> Toggle Actore View</button> */}
-                    <button onClick = {toggleActorView}>배우 및 출연진</button>
+                    <button onClick={toggleActorView}>배우 및 출연진</button>
                 </div>
 
-                {ActorToggle && 
-                    <Row gutter = {[16, 16]}>
-                    {Casts && Casts.map((cast, index) => (
-                        <React.Fragment key = {index}>
-                            <GridCards 
-                                image = {cast.profile_path ?
-                                    `${IMAGE_BASE_URL}/w500${cast.profile_path}` : base_no_image
-                                }
-                                characterName = {cast.name}
-                            />     
-                        </React.Fragment>
-                ))}
-                </Row>
+                {ActorToggle &&
+                    <Row gutter={[16, 16]}>
+                        {Casts && Casts.map((cast, index) => (
+                            <React.Fragment key={index}>
+                                <GridCards
+                                    image={cast.profile_path ?
+                                        `${IMAGE_BASE_URL}/w500${cast.profile_path}` : base_no_image
+                                    }
+                                    characterName={cast.name}
+                                />
+                            </React.Fragment>
+                        ))}
+                    </Row>
                 }
 
             </div>

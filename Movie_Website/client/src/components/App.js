@@ -13,20 +13,20 @@ import MovieDetail from "./views/MovieDetail/MovieDetail"
 //false  logged in user can't go inside
 
 function App() {
-  return (
-    <Suspense fallback={(<div>Loading...</div>)}>
-      <NavBar />
-      <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
-        <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)} />
-          <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route exact path="/movie/:movieID" component={Auth(MovieDetail, null)} />
-        </Switch>
-      </div>
-      <Footer />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={(<div>Loading...</div>)}>
+            <NavBar />
+            <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
+                <Switch>
+                    <Route exact path="/" component={Auth(LandingPage, null)} />
+                    <Route exact path="/login" component={Auth(LoginPage, false)} />
+                    <Route exact path="/register" component={Auth(RegisterPage, false)} />
+                    <Route exact path="/movie/:movieID" component={Auth(MovieDetail, null)} />
+                </Switch>
+            </div>
+            <Footer />
+        </Suspense>
+    );
 }
 
 export default App;
