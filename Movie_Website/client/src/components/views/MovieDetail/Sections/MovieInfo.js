@@ -1,10 +1,10 @@
 import React from 'react'
 import { Descriptions} from 'antd'
+import {ExchangeRate} from '../../../Config'
 
 function MovieInfo(props) {
 
     let {movie} = props
-    let ExchangeRate = 1187.50
     let is_released = (movie.status) === 'Released' ? "상영중" : "개봉전"
     let rev = String(parseInt(movie.revenue * ExchangeRate)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
