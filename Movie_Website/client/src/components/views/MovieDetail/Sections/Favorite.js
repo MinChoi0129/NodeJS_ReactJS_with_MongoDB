@@ -25,9 +25,9 @@ function Favorite(props) {
         
         axios.post('/api/favorite/favoriteNumber', variables)
         .then(response => {
-            setFavoriteNumber(response.data.FavoriteNumber)
+            console.log("FavNum 가져오기", response)
+            setFavoriteNumber(response.data.favoriteNumber)
             if (response.data.success) {
-
             } else {
                 alert('정보를 가져오는데 실패했습니다.')
             }
@@ -35,9 +35,9 @@ function Favorite(props) {
 
         axios.post('/api/favorite/favorited', variables)
         .then(response => {
-            setFavorited(response.data.Favorited)
+            console.log("Fav유무 가져오기", response)
+            setFavorited(response.data.favorited)
             if (response.data.success) {
-                
             } else {
                 alert('정보를 가져오는데 실패했습니다.')
             }
@@ -50,7 +50,8 @@ function Favorite(props) {
         if (Favorited) {
             axios.post('/api/favorite/removeFromFavorite', variables)
             .then(response => {
-                if (response.data.success) {
+                console.log("좋아요 제거", response)
+                if (response.data.success) {                    
                     setFavoriteNumber(FavoriteNumber - 1)
                     setFavorited(!Favorited)
                 } else {
@@ -60,11 +61,12 @@ function Favorite(props) {
         } else {
             axios.post('/api/favorite/addToFavorite', variables)
             .then(response => {
+                console.log("좋아요 추가", response)
                 if (response.data.success) {
                     setFavoriteNumber(FavoriteNumber + 1)
                     setFavorited(!Favorited)
                 } else {
-                    alert('좋아요를 하는데 실패했습니다.')
+                    alert('좋아요를 실패했습니다.')
                 }
             })
         }
@@ -77,7 +79,7 @@ function Favorite(props) {
                     : 
                     <span role = "img" aria-label = "finger-neutral">🤜</span>
                 }
-                &nbsp;{FavoriteNumber || 0}</Button>
+                &nbsp;{FavoriteNumber}</Button>
         </div>
     )
 }
