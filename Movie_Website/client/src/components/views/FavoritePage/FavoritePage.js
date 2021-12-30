@@ -15,13 +15,13 @@ function FavoritePage() {
 
     const fetchFavoriteMovies = () => {
         axios.post('/api/favorite/getFavoriteMovie', { userFrom: window.localStorage.getItem('userId') })
-        .then(response => {
-            if (response.data.success) {
-                setFavorites(response.data.favorites)
-            } else {
-                alert("영화 정보를 가져오는데 실패했습니다.")
-            }
-        })
+            .then(response => {
+                if (response.data.success) {
+                    setFavorites(response.data.favorites)
+                } else {
+                    alert("영화 정보를 가져오는데 실패했습니다.")
+                }
+            })
     }
 
     const onClickDelete = (movieId, userFrom) => {
@@ -39,13 +39,12 @@ function FavoritePage() {
             })
     }
 
-
     const renderCards = Favorites.map((favorite, index) => {
 
         const content = (
             <div>
                 {favorite.moviePost ?
-                    <img src={`${IMAGE_BASE_URL}/w500/${favorite.moviePost}`} alt = {base_no_image} /> : base_no_image
+                    <img src={`${IMAGE_BASE_URL}/w500/${favorite.moviePost}`} alt={base_no_image} /> : base_no_image
                 }
             </div>
         )
@@ -55,11 +54,9 @@ function FavoritePage() {
             </Popover>
 
             <td>{favorite.movieRunTime}분</td>
-            <td><button onClick = {() => onClickDelete(favorite.movieId, favorite.userFrom)}>삭제</button></td>
+            <td><button onClick={() => onClickDelete(favorite.movieId, favorite.userFrom)}>삭제</button></td>
         </tr>
     })
-
-
 
     return (
         <div style={{ width: '85%', margin: '3rem auto' }}>

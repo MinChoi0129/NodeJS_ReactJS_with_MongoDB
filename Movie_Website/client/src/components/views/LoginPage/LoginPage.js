@@ -19,7 +19,7 @@ function LoginPage(props) {
         setRememberMe(!rememberMe)
     };
 
-    const initialEmail = localStorage.getItem("rememberMe") ? localStorage.getItem("rememberMe") : '';
+    const initialEmail = window.localStorage.getItem("rememberMe") ? window.localStorage.getItem("rememberMe") : '';
 
     return (
         <Formik
@@ -71,19 +71,16 @@ function LoginPage(props) {
                     values,
                     touched,
                     errors,
-                    // dirty,
                     isSubmitting,
                     handleChange,
                     handleBlur,
                     handleSubmit,
-                    // handleReset,
                 } = props;
                 return (
                     <div className="app">
-
                         <Title level={2}>로그인</Title>
-                        <form onSubmit={handleSubmit} style={{ width: '350px' }}>
 
+                        <form onSubmit={handleSubmit} style={{ width: '350px' }}>
                             <Form.Item required>
                                 <Input
                                     id="email"
@@ -143,6 +140,5 @@ function LoginPage(props) {
         </Formik>
     );
 };
+
 export default withRouter(LoginPage);
-
-

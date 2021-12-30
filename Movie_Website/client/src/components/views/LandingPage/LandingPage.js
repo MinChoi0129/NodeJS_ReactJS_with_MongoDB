@@ -3,7 +3,6 @@ import { API_URL, API_KEY, IMAGE_BASE_URL } from '../../Config'
 import MainImage from './Sections/MainImage'
 import { Row } from 'antd'
 import GridCards from '../commons/GridCards';
-// import { FaCode } from "react-icons/fa";
 
 function LandingPage() {
 
@@ -47,9 +46,7 @@ function LandingPage() {
             <div style={{ width: '85%', margin: '1rem auto' }}>
                 <h2>최신 영화들</h2>
                 <hr />
-
                 <Row gutter={[16, 16]}>
-
                     {Movies && Movies.map((movie, index) => (
                         <React.Fragment key={index}>
                             <GridCards
@@ -63,8 +60,6 @@ function LandingPage() {
                         </React.Fragment>
                     ))}
                 </Row>
-
-
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>

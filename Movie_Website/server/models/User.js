@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const moment = require("moment");
-
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -34,7 +33,6 @@ const userSchema = mongoose.Schema({
         type: Number
     }
 })
-
 
 userSchema.pre('save', function (next) {
     var user = this;

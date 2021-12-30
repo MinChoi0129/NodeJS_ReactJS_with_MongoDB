@@ -1,10 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import moment from "moment";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
-import { useDispatch } from "react-redux";
-
 import {
     Form,
     Input,
@@ -21,6 +20,7 @@ const formItemLayout = {
         sm: { span: 16 },
     },
 };
+
 const tailFormItemLayout = {
     wrapperCol: {
         xs: {
@@ -37,7 +37,6 @@ const tailFormItemLayout = {
 function RegisterPage(props) {
     const dispatch = useDispatch();
     return (
-
         <Formik
             initialValues={{
                 email: '',
@@ -46,6 +45,7 @@ function RegisterPage(props) {
                 password: '',
                 confirmPassword: ''
             }}
+
             validationSchema={Yup.object().shape({
                 name: Yup.string()
                     .required('이름은 필수입니다.'),
@@ -61,9 +61,9 @@ function RegisterPage(props) {
                     .oneOf([Yup.ref('password'), null], '비밀번호가 다릅니다.')
                     .required('비밀번호 확인은 필수입니다.')
             })}
+
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-
                     let dataToSubmit = {
                         email: values.email,
                         password: values.password,
@@ -83,7 +83,6 @@ function RegisterPage(props) {
                             }
                         }
                     })
-
                     setSubmitting(false);
                 }, 500);
             }}
@@ -93,18 +92,16 @@ function RegisterPage(props) {
                     values,
                     touched,
                     errors,
-                    // dirty,
                     isSubmitting,
                     handleChange,
                     handleBlur,
                     handleSubmit,
-                    // handleReset,
                 } = props;
+
                 return (
                     <div className="app">
                         <h2>회원가입</h2>
                         <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
-
                             <Form.Item required label="이름">
                                 <Input
                                     id="name"
@@ -202,6 +199,5 @@ function RegisterPage(props) {
         </Formik>
     );
 };
-
 
 export default RegisterPage
