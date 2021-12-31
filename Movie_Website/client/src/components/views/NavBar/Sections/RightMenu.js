@@ -12,9 +12,10 @@ function RightMenu(props) {
     const logoutHandler = () => {
         axios.get(`${USER_SERVER}/logout`).then(response => {
             if (response.status === 200) {
+                window.localStorage.removeItem('userId')
                 props.history.push("/login");
             } else {
-                alert('Log Out Failed')
+                alert('로그아웃을 실패했습니다.')
             }
         });
     };

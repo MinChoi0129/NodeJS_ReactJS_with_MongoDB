@@ -4,7 +4,6 @@ const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
 router.get("/auth", auth, (req, res) => {
-    console.log(`'${req.user._id}'님이 페이지 이동을 요청하였습니다. 관리자 : ${req.user.role !== 0}`)
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
@@ -61,6 +60,8 @@ router.post("/login", (req, res) => {
 router.get("/logout", auth, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: "", tokenExp: "" }, (err, doc) => {
         if (err) return res.json({ success: false, err });
+        res.clearCookie("w_auth")
+        res.clearCookie("w_authExp")
         console.log(`'${req.user._id}'님이 로그아웃을 성공하였습니다.`)
         return res.status(200).send({
             success: true
