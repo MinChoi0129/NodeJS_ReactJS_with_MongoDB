@@ -69,4 +69,28 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+router.post("/reset_user", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (!user)
+            return res.json({
+                loginSuccess: false,
+                message: "해당 이메일을 찾을 수 없습니다."
+            })
+
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (err) return res.json({ success: false, err })
+
+            if (!isMatch)
+                return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." });
+
+            user.save((err) => {
+                if (err) return res.json({ success: false, err });
+                console.log(`'${req.body.name}'님의 비밀번호가 변경되었습니다.`)
+                return res.status(200).json({ success: true });
+            })
+        })
+    })
+})
+
+
 module.exports = router;
