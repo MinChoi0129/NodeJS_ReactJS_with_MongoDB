@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
@@ -37,11 +39,11 @@ router.post("/login", (req, res) => {
                 loginSuccess: false,
                 message: "인증에 실패했습니다. 이메일을 찾을 수 없습니다."
             });
-        
+
         user.comparePassword(req.body.password, (err, isMatch) => {
             if (!isMatch)
                 return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." });
-            
+
             user.generateToken((err, user) => {
                 console.log(`'${user._id}'님이 로그인을 성공하였습니다.`)
                 if (err) return res.status(400).send(err);
@@ -71,9 +73,10 @@ router.get("/logout", auth, (req, res) => {
 
 router.post("/reset_user", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
+
         if (!user)
             return res.json({
-                loginSuccess: false,
+                success: false,
                 message: "해당 이메일을 찾을 수 없습니다."
             })
 
@@ -81,16 +84,23 @@ router.post("/reset_user", (req, res) => {
             if (err) return res.json({ success: false, err })
 
             if (!isMatch)
-                return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." });
+                return res.json({ success: false, message: "기존 비밀번호를 확인해주세요." });
 
-            user.save((err) => {
-                if (err) return res.json({ success: false, err });
-                console.log(`'${req.body.name}'님의 비밀번호가 변경되었습니다.`)
-                return res.status(200).json({ success: true });
+            bcrypt.genSalt(saltRounds, function (err, salt) {
+                if (err) return res.json({ success: false, message: err })
+
+                bcrypt.hash(req.body.newPassword, salt, function (err, hash) {
+                    if (err) return res.json({ success: false, message: err })
+                    User.findOneAndUpdate({ email: req.body.email }, { password: hash }, (err, doc) => {
+                        if (err) return res.json({ success: false, err })
+                        return res.status(200).send({
+                            success: true
+                        })
+                    })
+                })
             })
         })
     })
 })
-
 
 module.exports = router;

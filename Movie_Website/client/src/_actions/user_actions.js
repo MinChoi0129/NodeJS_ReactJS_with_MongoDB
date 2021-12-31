@@ -5,7 +5,18 @@ import {
     REGISTER_USER,
     AUTH_USER,
     LOGOUT_USER,
+    RESET_USER,
 } from './types';
+
+export function resetUser(dataToSubmit) {
+    const request = axios.post(`${USER_SERVER}/reset_user`, dataToSubmit)
+        .then(response => response.data);
+
+    return {
+        type: RESET_USER,
+        payload: request
+    }
+}
 
 export function registerUser(dataToSubmit) {
     const request = axios.post(`${USER_SERVER}/register`, dataToSubmit)
