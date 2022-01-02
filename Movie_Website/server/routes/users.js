@@ -83,6 +83,9 @@ router.post("/reset_user", (req, res) => {
         user.comparePassword(req.body.password, (err, isMatch) => {
             if (err) return res.json({ success: false, err })
 
+            if (req.body.password === req.body.newPassword) {
+                return res.json({ success: false, message: "새로운 비밀번호가 기존 비밀번호와 같습니다." })
+            }
             if (!isMatch)
                 return res.json({ success: false, message: "기존 비밀번호를 확인해주세요." });
 
