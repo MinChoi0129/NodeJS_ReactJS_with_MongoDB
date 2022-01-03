@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd'
 import Dropzone from 'react-dropzone'
+import axios from 'axios'
 
 const { TextArea } = Input
 const { Title } = Typography
@@ -22,7 +23,7 @@ function VideoUploadPage() {
     const [VideoTitle, setVideoTitle] = useState("")
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
-    const [Category, setCategory] = useState("Film & Animation")
+    const [Category, setCategory] = useState(0)
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
@@ -40,6 +41,23 @@ function VideoUploadPage() {
         setCategory(e.currentTarget.value)
     }
 
+    const onDrop = (files) => {
+        let formData = new FormData
+        const config = {
+            header: {'content-type': 'multipart/form-data'}
+        }
+        formData.append("file", files[0])
+        axios.post('/api/video/uploads', formData, config)
+            .then(response => {
+                if (response.data.success) {
+                    alert('업로드를 성공했습니다. 콘솔 췤')
+                    console.log(response.data)
+                } else {
+                    alert('업로드를 실패했습니다.')
+                }
+            })
+    }
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
 
@@ -50,7 +68,7 @@ function VideoUploadPage() {
             <Form onSubmit>
                 <div style={{ display: 'flex', justifyConenter: 'space-between' }}>
 
-                    <Dropzone onDrop multiple maxSize>
+                    <Dropzone onDrop={onDrop} multiple={false} maxSize={9000000000000}>
                         {({ getRootProps, getInputProps }) => (
                             <div style={{
                                 width: '300px', height: '240px',
@@ -86,7 +104,6 @@ function VideoUploadPage() {
                     {PrivateOptions.map((item, index) => (
                         <option key={index} value={item.value}>{item.label}</option>
                     ))}
-                    <option key value></option>
                 </select>
                 <br />
                 <br />
@@ -95,16 +112,15 @@ function VideoUploadPage() {
                     {CategoryOptions.map((item, index) => (
                         <option key={index} value={item.value}>{item.label}</option>
                     ))}
-                    <option key value></option>
-                </select>
+                </select >
                 <br />
                 <br />
 
                 <Button type="primary" size="large" onClick>
                     Submit
                 </Button>
-            </Form>
-        </div>
+            </Form >
+        </div >
     )
 }
 
