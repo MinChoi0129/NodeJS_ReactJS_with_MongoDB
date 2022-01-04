@@ -44,7 +44,7 @@ function VideoUploadPage() {
     const onDrop = (files) => {
         let formData = new FormData
         const config = {
-            header: {'content-type': 'multipart/form-data'}
+            header: { 'content-type': 'multipart/form-data' }
         }
         formData.append("file", files[0])
         axios.post('/api/video/uploads', formData, config)
