@@ -40,7 +40,7 @@ router.post("/thumbnail", (req, res) => {
     let filePath = ""
     let fileDuration = ""
 
-    ffmpeg.ffprobe(req.body.url, function (err,metadata) {
+    ffmpeg.ffprobe(req.body.url, function (err, metadata) {
         console.log(metadata.format.duration, "초")
         fileDuration = metadata.format.duration
     })
@@ -52,14 +52,14 @@ router.post("/thumbnail", (req, res) => {
         })
         .on('end', function () {
             console.log("Screenshots had been taken.")
-            return res.json({success: true, url: filePath, fileDuration: fileDuration})
+            return res.json({ success: true, url: filePath, fileDuration: fileDuration })
         })
-        .on('error', function(err) {
+        .on('error', function (err) {
             console.error(err)
-            return res.json({success: false, err})
+            return res.json({ success: false, err })
         })
         .screenshots({
-            count: 2, 
+            count: 2,
             folder: 'uploads/thumbnails',
             size: '320x240',
             filename: 'thumbnail-%b.png'
