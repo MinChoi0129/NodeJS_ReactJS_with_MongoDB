@@ -2,20 +2,21 @@ import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import Axios from 'axios'
 
 const { TextArea } = Input
 const { Title } = Typography
 
 const PrivateOptions = [
-    { value: 0, label: "Private" },
-    { value: 1, label: "Public" },
+    { value: 0, label: "비공개" },
+    { value: 1, label: "공개" },
 ]
 
 const CategoryOptions = [
-    { value: 0, label: "Film & Animation" },
-    { value: 1, label: "Autos & Vehicles" },
-    { value: 2, label: "Music" },
-    { value: 3, label: "Pets & Animals" },
+    { value: 0, label: "영화 & 애니메이션" },
+    { value: 1, label: "차량" },
+    { value: 2, label: "음악" },
+    { value: 3, label: "동물" },
 ]
 
 function VideoUploadPage() {
@@ -24,6 +25,9 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Category, setCategory] = useState(0)
+    const [FilePath, setFilePath] = useState("")
+    const [Duration, setDuration] = useState("")
+    const [ThumbnailPath, setThumbnailPath] = useState("")
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
@@ -50,8 +54,25 @@ function VideoUploadPage() {
         axios.post('/api/video/uploads', formData, config)
             .then(response => {
                 if (response.data.success) {
-                    alert('업로드를 성공했습니다. 콘솔 췤')
                     console.log(response.data)
+
+                    let variable = {
+                        url: response.data.url,
+                        fileName: response.data.fileName
+                    }
+
+                    setFilePath(response.data.url)
+
+                    axios.post('/api/video/thumbnail', variable)
+                        .then(response => {
+                            if (response.data.success) {
+                                setDuration(response.data.fileDuration)
+                                setThumbnailPath(response.data.url)
+                            } else {
+                                alert("썸네일 생성에 실패했습니다.")
+                            }
+                        })
+
                 } else {
                     alert('업로드를 실패했습니다.')
                 }
@@ -81,21 +102,24 @@ function VideoUploadPage() {
                         )}
                     </Dropzone>
 
-                    <div>
-                        <img scr alt />
-                    </div>
+                    {ThumbnailPath &&
+                        <div>
+                            <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                        </div>
+                    }
+
 
                 </div>
 
                 <br />
                 <br />
 
-                <label>Title</label>
+                <label>제목</label>
                 <Input onChange={onTitleChange} value={VideoTitle} />
                 <br />
                 <br />
 
-                <label>Description</label>
+                <label>설명</label>
                 <TextArea onChange={onDescriptionChange} value={Description} />
                 <br />
                 <br />
@@ -117,7 +141,7 @@ function VideoUploadPage() {
                 <br />
 
                 <Button type="primary" size="large" onClick>
-                    Submit
+                    업로드
                 </Button>
             </Form >
         </div >
