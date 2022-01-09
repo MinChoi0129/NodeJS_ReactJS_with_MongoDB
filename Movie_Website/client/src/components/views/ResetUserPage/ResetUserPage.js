@@ -85,7 +85,6 @@ function ResetUserPage(props) {
                     handleSubmit,
                 } = props;
 
-
                 return (
                     <div className="app">
                         <h2>비밀번호 변경</h2>
